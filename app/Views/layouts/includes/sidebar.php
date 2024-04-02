@@ -8,29 +8,20 @@
                 <?= model('UserModel')->joinLevelWhere(session()->get('id_user'))->nama_level ?></h5>
         </div>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-            <li class="nav-item"><a href="#" class="nav-link align-middle px-0"><i
+            <li class="nav-item"><a href="<?= base_url('beranda') ?>" class="nav-link align-middle px-0"><i
                         class="fa fa-home fs-4 bi-house"></i><span class="ms-1 d-none d-sm-inline">Home</span></a></li>
-            <li class="nav-item"><a class="nav-link px-0 align-middle dropdown-toggle" href="#submenu1"
-                    data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="submenu1"><i
-                        class="fa fa-bar-chart fs-4 bi-speedometer2"></i><span
-                        class="ms-1 d-none d-sm-inline">Dashboard</span></a>
-                <ul id="submenu1" class="nav flex-column ms-1 collapse ms-1 ms-md-3">
-                    <li class="w-100"><a href="#" class="nav-link px-0"><span class="d-none d-sm-inline">Item</span></a>
-                    </li>
-                    <li><a href="#" class="nav-link px-0"><span class="d-none d-sm-inline">Item</span></a></li>
-                </ul>
-            </li>
+            <li class="nav-item"><a href="<?= base_url('manajemen-akun') ?>" class="nav-link align-middle px-0"><i
+                        class="fa fa-users fs-4 bi-house"></i><span class="ms-1 d-none d-sm-inline">Manajemen
+                        User</span></a></li>
+            <li class="nav-item"><a href="<?= base_url('data-ruangan') ?>" class="nav-link align-middle px-0"><i
+                        class="fa fa-building fs-4 bi-house"></i><span class="ms-1 d-none d-sm-inline">Data
+                        Ruangan</span></a></li>
+            <li class="nav-item"><a href="<?= base_url('data-inventaris') ?>" class="nav-link align-middle px-0"><i
+                        class="fa fa-box fs-4 bi-house"></i><span class="ms-1 d-none d-sm-inline">Data
+                        Inventaris</span></a></li>
+
             <li><a href="#" class="nav-link px-0 align-middle"><i class="fa fa-table fs-4 bi-table"></i><span
                         class="ms-1 d-none d-sm-inline">Orders</span></a></li>
-            <li><a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle"><i
-                        class="fa fa-glass fs-4 bi-bootstrap"></i><span
-                        class="ms-1 d-none d-sm-inline">Lounge</span></a>
-                <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-                    <li class="w-100"><a href="#" class="nav-link px-0"><span class="d-none d-sm-inline">Item</span></a>
-                    </li>
-                    <li><a href="#" class="nav-link px-0"><span class="d-none d-sm-inline">Item</span></a></li>
-                </ul>
-            </li>
             <li><a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle"><i
                         class="fa fa-th-large fs-4 bi-grid"></i><span
                         class="ms-1 d-none d-sm-inline">Products</span></a>

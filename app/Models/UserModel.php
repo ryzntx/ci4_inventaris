@@ -20,6 +20,11 @@ class UserModel extends Model
         return $this->where('id_user', session()->get('id_user'))->first();
     }
 
+    public function getUsers()
+    {
+        return $this->joinLevel();
+    }
+
     public function joinLevel()
     {
         return $this->join('levels', 'levels.id_level = users.id_level')->findAll();
