@@ -60,6 +60,10 @@ class DataRuangan extends BaseController
     // Hapus Ruangan
     public function hapus($id_ruangan)
     {
+        $ruangan = $this->ruanganModel->find($id_ruangan);
+        if ($ruangan->foto != null && file_exists('uploads/ruangan/foto/' . $ruangan->foto)) {
+            unlink('uploads/ruangan/foto/' . $ruangan->foto);
+        }
         $this->ruanganModel->delete($id_ruangan);
 
         return redirect()->to(base_url('data-ruangan'));

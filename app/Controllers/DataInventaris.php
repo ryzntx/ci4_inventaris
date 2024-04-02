@@ -105,6 +105,10 @@ class DataInventaris extends BaseController
 
     public function hapus($id_inventaris)
     {
+        $inventaris = $this->inventarisModel->getInventarisById($id_inventaris);
+        if ($inventaris->foto != null && file_exists('uploads/inventaris/foto/' . $inventaris->foto)) {
+            unlink('uploads/inventaris/foto/' . $inventaris->foto);
+        }
         $this->inventarisModel->delete($id_inventaris);
 
         return redirect()->to(base_url('data-inventaris'));
