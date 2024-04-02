@@ -93,6 +93,10 @@ class ManajemenAkun extends BaseController
 
     public function hapus($id)
     {
+        $user = $this->userModel->find($id);
+        if ($user->foto != null && $user->foto != 'default.jpg' && file_exists('uploads/foto/' . $user->foto)) {
+            unlink('uploads/foto/' . $user->foto);
+        }
         $this->userModel->delete($id);
 
         return redirect()->to(base_url('manajemen-akun'));
