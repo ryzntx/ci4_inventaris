@@ -2,6 +2,10 @@
 
 namespace Config;
 
+use App\Filters\IsAdmin;
+use App\Filters\IsOperator;
+use App\Filters\IsPeminjam;
+use App\Filters\SessionAuth;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -24,6 +28,10 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'auth'          => SessionAuth::class,
+        'isAdmin'       => IsAdmin::class,
+        'isOperator'    => IsOperator::class,
+        'isPeminjam'    => IsPeminjam::class,
     ];
 
     /**
@@ -34,6 +42,7 @@ class Filters extends BaseConfig
      */
     public array $globals = [
         'before' => [
+            'auth' => ['except' => ['/', '/auth/*']],
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
