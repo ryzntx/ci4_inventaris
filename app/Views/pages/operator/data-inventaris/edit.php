@@ -21,6 +21,9 @@
         <div class="card-body">
             <form action="<?= base_url('data-inventaris/edit/' . $inventaris->id_inventaris) ?>" method="post"
                 enctype="multipart/form-data">
+                <img src="<?= base_url('uploads/inventaris/foto/' . $inventaris->foto) ?>" alt="Foto Inventaris"
+                    class="img-thumbnail mb-3" style="width: 20%;">
+                <?= csrf_field(); ?>
                 <div class="mb-3">
                     <label for="kode_inventaris" class="form-label">Kode Inventaris</label>
                     <input type="text" class="form-control" id="kode_inventaris" name="kode_inventaris"
