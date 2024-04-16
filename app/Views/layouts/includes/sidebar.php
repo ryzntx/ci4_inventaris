@@ -18,23 +18,11 @@
                         Ruangan</span></a></li>
             <li class="nav-item"><a href="<?= base_url('data-inventaris') ?>" class="nav-link align-middle px-0"><i
                         class="fa fa-box fs-4 bi-house"></i><span class="ms-1 d-none d-sm-inline">Data
-                        Inventaris</span></a></li>
+                        Barang</span></a></li>
+            <li><a href="<?= base_url('peminjaman') ?>" class="nav-link px-0 align-middle"><i
+                        class="fa fa-table fs-4 bi-table"></i><span
+                        class="ms-1 d-none d-sm-inline">Peminjaman</span></a></li>
 
-            <li><a href="#" class="nav-link px-0 align-middle"><i class="fa fa-table fs-4 bi-table"></i><span
-                        class="ms-1 d-none d-sm-inline">Orders</span></a></li>
-            <li><a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle"><i
-                        class="fa fa-th-large fs-4 bi-grid"></i><span
-                        class="ms-1 d-none d-sm-inline">Products</span></a>
-                <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
-                    <li class="w-100"><a href="#" class="nav-link px-0"><span
-                                class="d-none d-sm-inline">Product</span></a></li>
-                    <li><a href="#" class="nav-link px-0"><span class="d-none d-sm-inline">Product</span></a></li>
-                    <li><a href="#" class="nav-link px-0"><span class="d-none d-sm-inline">Product</span></a></li>
-                    <li><a href="#" class="nav-link px-0"><span class="d-none d-sm-inline">Product</span></a></li>
-                </ul>
-            </li>
-            <li><a href="#" class="nav-link px-0 align-middle"><i class="fa fa-users fs-4 bi-people"></i><span
-                        class="ms-1 d-none d-sm-inline">Customers</span></a></li>
         </ul>
         <hr>
     </div>

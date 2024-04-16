@@ -50,4 +50,20 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->post('edit/(:num)', 'DataInventaris::editAction/$1');
         $routes->get('hapus/(:num)', 'DataInventaris::hapus/$1');
     });
+
+    // Peminjaman
+    $routes->group('peminjaman', function ($routes) {
+        $routes->get('/', 'Peminjaman::index');
+        $routes->get('tambah', 'Peminjaman::tambah');
+        //Keranjang
+        $routes->post('tambah-item-keranjang', 'Peminjaman::tambahItemKeranjang');
+        $routes->get('hapus-item-keranjang/(:any)', 'Peminjaman::hapusItemKeranjang/$1');
+        $routes->get('hapus-keranjang', 'Peminjaman::hapusKeranjang');
+
+        $routes->post('tambah', 'Peminjaman::tambahAction');
+        $routes->get('lihat/(:num)', 'Peminjaman::lihat/$1');
+        $routes->get('edit/(:num)', 'Peminjaman::edit/$1');
+        $routes->post('edit/(:num)', 'Peminjaman::editAction/$1');
+        $routes->get('hapus/(:num)', 'Peminjaman::hapus/$1');
+    });
 });
