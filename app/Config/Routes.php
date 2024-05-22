@@ -25,45 +25,62 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     // Manajemen User
     $routes->group('manajemen-akun', function ($routes) {
-        $routes->get('/', 'ManajemenAkun::index');
-        $routes->get('tambah', 'ManajemenAkun::tambah');
-        $routes->post('tambah', 'ManajemenAkun::tambahAction');
-        $routes->get('edit/(:num)', 'ManajemenAkun::edit/$1');
-        $routes->post('edit/(:num)', 'ManajemenAkun::editAction/$1');
-        $routes->get('hapus/(:num)', 'ManajemenAkun::hapus/$1');
+        $routes->get('/', 'Admin\ManajemenAkun::index');
+        $routes->get('tambah', 'Admin\ManajemenAkun::tambah');
+        $routes->post('tambah', 'Admin\ManajemenAkun::tambahAction');
+        $routes->get('edit/(:num)', 'Admin\ManajemenAkun::edit/$1');
+        $routes->post('edit/(:num)', 'Admin\ManajemenAkun::editAction/$1');
+        $routes->get('hapus/(:num)', 'Admin\ManajemenAkun::hapus/$1');
     });
 
     // Data Ruangan
     $routes->group('data-ruangan', function ($routes) {
-        $routes->get('/', 'DataRuangan::index');
-        $routes->post('tambah', 'DataRuangan::tambahAction');
-        $routes->post('edit/(:num)', 'DataRuangan::editAction/$1');
-        $routes->get('hapus/(:num)', 'DataRuangan::hapus/$1');
+        $routes->get('/', 'Admin\DataRuangan::index');
+        $routes->post('tambah', 'Admin\DataRuangan::tambahAction');
+        $routes->post('edit/(:num)', 'Admin\DataRuangan::editAction/$1');
+        $routes->get('hapus/(:num)', 'Admin\DataRuangan::hapus/$1');
     });
 
     // Data Inventaris
     $routes->group('data-inventaris', function ($routes) {
-        $routes->get('/', 'DataInventaris::index');
-        $routes->get('tambah', 'DataInventaris::tambah');
-        $routes->post('tambah', 'DataInventaris::tambahAction');
-        $routes->get('edit/(:num)', 'DataInventaris::edit/$1');
-        $routes->post('edit/(:num)', 'DataInventaris::editAction/$1');
-        $routes->get('hapus/(:num)', 'DataInventaris::hapus/$1');
+        $routes->get('/', 'Admin\DataInventaris::index');
+        $routes->get('tambah', 'Admin\DataInventaris::tambah');
+        $routes->post('tambah', 'Admin\DataInventaris::tambahAction');
+        $routes->get('edit/(:num)', 'Admin\DataInventaris::edit/$1');
+        $routes->post('edit/(:num)', 'Admin\DataInventaris::editAction/$1');
+        $routes->get('hapus/(:num)', 'Admin\DataInventaris::hapus/$1');
     });
 
-    // Peminjaman
+    // Operator Transaksi Peminjaman
     $routes->group('peminjaman', function ($routes) {
-        $routes->get('/', 'Peminjaman::index');
-        $routes->get('tambah', 'Peminjaman::tambah');
+        $routes->get('/', 'Operator\Peminjaman::index');
+        $routes->get('tambah', 'Operator\Peminjaman::tambah');
         //Keranjang
-        $routes->post('tambah-item-keranjang', 'Peminjaman::tambahItemKeranjang');
-        $routes->get('hapus-item-keranjang/(:any)', 'Peminjaman::hapusItemKeranjang/$1');
-        $routes->get('hapus-keranjang', 'Peminjaman::hapusKeranjang');
+        $routes->post('tambah-item-keranjang', 'Operator\Peminjaman::tambahItemKeranjang');
+        $routes->get('hapus-item-keranjang/(:any)', 'Operator\Peminjaman::hapusItemKeranjang/$1');
+        $routes->get('hapus-keranjang', 'Operator\Peminjaman::hapusKeranjang');
 
-        $routes->post('tambah', 'Peminjaman::tambahAction');
-        $routes->get('lihat/(:num)', 'Peminjaman::lihat/$1');
-        $routes->get('edit/(:num)', 'Peminjaman::edit/$1');
-        $routes->post('edit/(:num)', 'Peminjaman::editAction/$1');
-        $routes->get('hapus/(:num)', 'Peminjaman::hapus/$1');
+        $routes->post('tambah', 'Operator\Peminjaman::tambahAction');
+        $routes->get('lihat/(:num)', 'Operator\Peminjaman::lihat/$1');
+        $routes->get('edit/(:num)', 'Operator\Peminjaman::edit/$1');
+        $routes->post('edit/(:num)', 'Operator\Peminjaman::editAction/$1');
+        $routes->get('hapus/(:num)', 'Operator\Peminjaman::hapus/$1');
     });
+
+    // Peminjam Transaksi Peminjaman
+    $routes->group('user/peminjaman', function ($routes) {
+        $routes->get('/', 'User\Peminjaman::index');
+        $routes->get('tambah', 'User\Peminjaman::tambah');
+        //Keranjang
+        $routes->post('tambah-item-keranjang', 'User\Peminjaman::tambahItemKeranjang');
+        $routes->get('hapus-item-keranjang/(:any)', 'User\Peminjaman::hapusItemKeranjang/$1');
+        $routes->get('hapus-keranjang', 'User\Peminjaman::hapusKeranjang');
+
+        $routes->post('tambah', 'User\Peminjaman::tambahAction');
+        $routes->get('lihat/(:num)', 'User\Peminjaman::lihat/$1');
+        $routes->get('edit/(:num)', 'User\Peminjaman::edit/$1');
+        $routes->post('edit/(:num)', 'User\Peminjaman::editAction/$1');
+        $routes->get('hapus/(:num)', 'User\Peminjaman::hapus/$1');
+    });
+
 });
