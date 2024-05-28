@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class ManajemenAkun extends BaseController
 {
@@ -99,5 +100,143 @@ class ManajemenAkun extends BaseController
         $this->userModel->delete($id);
 
         return redirect()->to(base_url('manajemen-akun'));
+    }
+
+    // Export data to Excel
+    public function exportToExcel()
+    {
+        //
+        $data = $this->userModel->getUsers();
+        //Init
+        $spreadsheet = new Spreadsheet();
+        // Header / Column Name
+        $spreadsheet->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Nama')
+            ->setCellValue('C1', 'Username')
+            ->setCellValue('D1', 'Email')
+            ->setCellValue('E1', 'Password')
+            ->setCellValue('F1', 'Level');
+
+        //Fill Data
+        $rowIndex = 2;
+        $no = 1;
+        foreach ($data as $row) {
+            $spreadsheet->setActiveSheetIndex(0)
+                ->setCellValue('A' . $rowIndex, $no)
+                ->setCellValue('B' . $rowIndex, $row->nama)
+                ->setCellValue('C' . $rowIndex, $row->username)
+                ->setCellValue('D' . $rowIndex, $row->email)
+                ->setCellValue('E' . $rowIndex, 'secret')
+                ->setCellValue('F' . $rowIndex, $row->nama_level);
+            $rowIndex++;
+            $no++;
+        }
+
+        // Set Title
+        $spreadsheet->getActiveSheet()->setTitle('Data Akun');
+
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $spreadsheet->setActiveSheetIndex(0);
+
+        // Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Data Akun.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+    }
+
+    // Import data from Excel
+    public function importFromExcel()
+    {
+
+        $file = $this->request->getFile('file');
+
+        if ($file) {
+            $extension = $file->getClientExtension();
+
+            if ($extension == 'csv') {
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+            } elseif ($extension == 'xlsx') {
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            } else {
+                return redirect()->to(base_url('manajemen-akun'))->with('error', 'Invalid file type');
+            }
+
+            $spreadsheet = $reader->load($file->getRealPath());
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+
+            foreach ($rows as $index => $row) {
+                if ($index == 0) {
+                    // Skip the first row (header)
+                    continue;
+                }
+
+                // Find level by name
+                $level = $this->levelModel->where('nama_level', $row[5])->first();
+                if (!$level) {
+                    continue;
+                }
+
+                // Check username not duplicate
+                $user = $this->userModel->where('username', $row[2])->first();
+                if ($user) {
+                    continue;
+                }
+
+                // Assuming the columns are as follows:
+                // A: kode_inventaris, B: nama, C: merek, D: spesifikasi, E: kondisi, F: jumlah, G: harga, H: sumber, I: nama_ruangan
+                // Create associative array
+                $data[] = [
+                    'nama' => $row[1],
+                    'username' => $row[2],
+                    'email' => $row[3],
+                    'password' => password_hash($row[4], PASSWORD_BCRYPT),
+                    'id_level' => $level->id_level,
+                ];
+            }
+            // Save the data to the database
+            //Bulk insert
+            if (isset($data)) {
+                $this->userModel->insertBatch($data);
+            }
+
+            return redirect()->to(base_url('manajemen-akun'))->with('success', 'Data imported successfully');
+        } else {
+            return redirect()->to(base_url('manajemen-akun'))->with('error', 'No file selected');
+        }
+
+    }
+
+    // Download the template
+    public function downloadExcel()
+    {
+        //Init
+        $spreadsheet = new Spreadsheet();
+// Header / Column Name
+        $spreadsheet->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Nama')
+            ->setCellValue('C1', 'Username')
+            ->setCellValue('D1', 'Email')
+            ->setCellValue('E1', 'Password')
+            ->setCellValue('F1', 'Level');
+
+        // Set Title
+        $spreadsheet->getActiveSheet()->setTitle('Data Akun');
+
+// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $spreadsheet->setActiveSheetIndex(0);
+
+// Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Data Akun.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
     }
 }

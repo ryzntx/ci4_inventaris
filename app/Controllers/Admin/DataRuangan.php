@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class DataRuangan extends BaseController
 {
@@ -66,5 +67,115 @@ class DataRuangan extends BaseController
         $this->ruanganModel->delete($id_ruangan);
 
         return redirect()->to(base_url('data-ruangan'));
+    }
+
+    // Export data to Excel
+    public function exportToExcel()
+    {
+        //
+        $data = $this->ruanganModel->findAll();
+        //Init
+        $spreadsheet = new Spreadsheet();
+        // Header / Column Name
+        $spreadsheet->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Nama Ruangan');
+
+        //Fill Data
+        $rowIndex = 2;
+        $no = 1;
+        foreach ($data as $row) {
+            $spreadsheet->setActiveSheetIndex(0)
+                ->setCellValue('A' . $rowIndex, $no)
+                ->setCellValue('B' . $rowIndex, $row->nama_ruangan);
+            $rowIndex++;
+            $no++;
+        }
+
+        // Set Title
+        $spreadsheet->getActiveSheet()->setTitle('Data Ruangan');
+
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $spreadsheet->setActiveSheetIndex(0);
+
+        // Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Data Ruangan.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+    }
+
+    // Import data from Excel
+    public function importFromExcel()
+    {
+
+        $file = $this->request->getFile('file');
+
+        if ($file) {
+            $extension = $file->getClientExtension();
+
+            if ($extension == 'csv') {
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+            } elseif ($extension == 'xlsx') {
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            } else {
+                return redirect()->to(base_url('data-ruangan'))->with('error', 'Invalid file type');
+            }
+
+            $spreadsheet = $reader->load($file->getRealPath());
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+
+            foreach ($rows as $index => $row) {
+                if ($index == 0) {
+                    // Skip the first row (header)
+                    continue;
+                }
+
+                // Assuming the columns are as follows:
+                // A: kode_inventaris, B: nama, C: merek, D: spesifikasi, E: kondisi, F: jumlah, G: harga, H: sumber, I: nama_ruangan
+                // Create associative array
+                $data[] = [
+                    'nama_ruangan' => $row[1],
+                ];
+            }
+            // Save the data to the database
+            //Bulk insert
+            if (isset($data)) {
+                $this->ruanganModel->insertBatch($data);
+            }
+
+            return redirect()->to(base_url('data-ruangan'))->with('success', 'Data imported successfully');
+        } else {
+            return redirect()->to(base_url('data-ruangan'))->with('error', 'No file selected');
+        }
+
+    }
+
+    // Download the template
+    public function downloadExcel()
+    {
+        //Init
+        $spreadsheet = new Spreadsheet();
+// Header / Column Name
+        $spreadsheet->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'No')
+            ->setCellValue('B1', 'Nama Ruangan');
+
+        // Set Title
+        $spreadsheet->getActiveSheet()->setTitle('Data Ruangan');
+
+// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $spreadsheet->setActiveSheetIndex(0);
+
+// Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="Data Ruangan.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
     }
 }

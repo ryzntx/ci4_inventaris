@@ -6,8 +6,32 @@
     <a href="<?=base_url('manajemen-akun/tambah')?>" class="btn btn-primary btn-sm"><i
             class="fa fa-plus me-2"></i>Tambah Akun</a>
     <div class="card mt-4">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between">
             <h5>Daftar Akun</h5>
+            <div class="dropdown">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa fa-cog me-2"></i>Alat
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="<?=base_url('manajemen-akun/export-excel')?>"><i
+                                class="fa fa-file-excel me-2"></i>Export to
+                            Excel</a></li>
+                    <li>
+                        <form class="dropdown-item" action="<?=base_url('manajemen-akun/import-excel')?>" method="post"
+                            enctype="multipart/form-data" id="uploadForm">
+                            <!-- <?=csrf_field()?> -->
+                            <label>
+                                <i class="fa fa-file-import me-2"></i>Import from Excel <input type="file" name="file"
+                                    id="fileInput" style="display: none;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                    application/vnd.ms-excel" required>
+                            </label>
+                        </form>
+                    </li>
+                    <li><a class="dropdown-item" href="<?=base_url('manajemen-akun/download-excel')?>"><i
+                                class="fa fa-file-download me-2"></i>Download Excel</a></li>
+                </ul>
+            </div>
         </div>
         <div class="card-body">
             <table class="table" id="dataTable" width="100%">
@@ -47,3 +71,16 @@
 </div>
 
 <?=$this->endSection();?>
+
+<?=$this->section('scripts')?>
+<script>
+$(document).ready(function() {
+
+    $('#fileInput').change(function(e) {
+        e.preventDefault();
+        console.log('File changed');
+        $('#uploadForm').submit();
+    });
+});
+</script>
+<?=$this->endSection()?>

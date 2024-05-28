@@ -4,7 +4,13 @@
             <div class="nav">
                 <div
                     class="d-flex flex-column justify-content-center align-items-center align-content-center dropdown my-4">
+                    <?php if (!model('UserModel')->ambilDataLogin()->foto): ?>
                     <img class="rounded-circle" src="<?=base_url('assets/img/hczKIze.jpg')?>" width="50" height="50">
+                    <?php else: ?>
+                    <img class="rounded-circle"
+                        src="<?=base_url('uploads/foto/' . model('UserModel')->ambilDataLogin()->foto)?>" width="50"
+                        height="50">
+                    <?php endif;?>
                     <h4 class="text-center">Hi, <?=model('UserModel')->ambilDataLogin()->nama?></h4>
                     <h5 class="badge bg-success">
                         <?=model('UserModel')->joinLevelWhere(session()->get('id_user'))->nama_level?></h5>
@@ -44,6 +50,10 @@
                 <a class="nav-link" href="#">
                     <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>
                     Laporan
+                </a>
+                <a class="nav-link" href="<?=base_url('utility')?>">
+                    <div class="sb-nav-link-icon"><i class="fas fa-gears"></i></div>
+                    Utilitas
                 </a>
                 <div class="sb-sidenav-menu-heading">Menu User</div>
                 <a class="nav-link" href="<?=base_url('user/peminjaman')?>">
