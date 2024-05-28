@@ -22,7 +22,6 @@ $routes->group('auth', function ($routes) {
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Beranda
     $routes->get('beranda', 'Beranda::index');
-    $routes->get('beranda/testDump', 'Beranda::testDump');
 
     // Manajemen User
     $routes->group('manajemen-akun', function ($routes) {
