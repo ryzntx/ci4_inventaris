@@ -4,7 +4,7 @@
         href="index.html">
         <img src="<?=base_url('assets/img/clipboard-image.png')?>" width="60"><span
             class="text-light fs-6 ms-2 d-inline-flex flex-column">
-            <p class="m-0 p-0">Sarana &amp; Prasana</p>
+            <p class="m-0 p-0">Sarana &amp; Prasarana</p>
             <p class="m-0 p-0">SMP Negeri 1 Subang</p>
         </span></a>
     <!-- Sidebar Toggle-->
