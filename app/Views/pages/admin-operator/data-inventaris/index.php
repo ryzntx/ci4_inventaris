@@ -6,7 +6,8 @@
     <a href="<?=base_url('data-inventaris/tambah')?>" class="btn btn-primary btn-sm"><i
             class="fa fa-plus me-2"></i>Tambah Inventaris</a>
     <div class="card mt-4">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between">
+            <h5>Daftar Barang / Inventaris</h5>
             <div class="dropdown">
                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">

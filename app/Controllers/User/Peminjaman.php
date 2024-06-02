@@ -76,7 +76,7 @@ class Peminjaman extends BaseController
                 session()->set('keranjang', $keranjang);
             }
         }
-        return redirect()->to('/user/peminjaman/tambah');
+        return redirect()->to('/user/peminjaman/tambah')->with('success', 'Item berhasil ditambahkan ke keranjang');
     }
 
     public function hapusItemKeranjang($row_id)
@@ -89,17 +89,17 @@ class Peminjaman extends BaseController
         }
         if (count($keranjang_baru) == 0) {
             session()->remove('keranjang');
-            return redirect()->to('/user/peminjaman/tambah');
+            return redirect()->to('/user/peminjaman/tambah')->with('success', 'Item berhasil dihapus dari keranjang');
         } else {
             session()->set('keranjang', $keranjang_baru);
-            return redirect()->to('/user/peminjaman/tambah');
+            return redirect()->to('/user/peminjaman/tambah')->with('success', 'Item berhasil dihapus dari keranjang');
         }
     }
 
     public function hapusKeranjang()
     {
         session()->remove('keranjang');
-        return redirect()->to('/user/peminjaman/tambah');
+        return redirect()->to('/user/peminjaman/tambah')->with('success', 'Keranjang berhasil dikosongkan');
     }
 
     public function tambahAction()
@@ -112,7 +112,7 @@ class Peminjaman extends BaseController
             'status_peminjaman' => 'Menunggu Persetujuan',
         ];
 
-        $this->peminjamanModel->save($data);
+        $res = $this->peminjamanModel->save($data);
         $id_peminjaman = $this->peminjamanModel->insertID();
 
         $keranjang = session()->get('keranjang');
@@ -123,7 +123,7 @@ class Peminjaman extends BaseController
                 'id_inventaris' => $item['id_inventaris'],
                 'jumlah' => $item['jumlah'],
             ];
-            $this->detailPeminjamanModel->save($data_detail);
+            $res = $this->detailPeminjamanModel->save($data_detail);
 
             // Pengurangan item inventaris
             $cari_inventaris = $this->inventarisModel->find($item['id_inventaris']);
@@ -133,40 +133,24 @@ class Peminjaman extends BaseController
             $this->inventarisModel->update($item['id_inventaris'], $data_inventaris);
         }
 
-        session()->remove('keranjang');
-        return redirect()->to('/user/peminjaman');
-    }
-
-    public function edit($id)
-    {
-        $data = [
-            'peminjaman' => $this->peminjamanModel->find($id),
-            'users' => $this->userModel->findAll(),
-            'inventariss' => $this->inventarisModel->getInventaris(),
-            'detail_peminjaman' => $this->detailPeminjamanModel->getDetailPeminjaman($id),
-        ];
-
-        return view('pages/user/peminjaman/edit', $data);
-    }
-
-    public function editAction($id)
-    {
-        $data = [
-            'tgl_pinjam' => $this->request->getVar('tanggal_peminjaman'),
-            'tgl_kembali' => $this->request->getVar('tanggal_pengembalian'),
-            'status_peminjaman' => $this->request->getVar('status_peminjaman'),
-        ];
-
-        $this->peminjamanModel->update($id, $data);
-        return redirect()->to('/user/peminjaman');
+        if ($res) {
+            session()->remove('keranjang');
+            return redirect()->to('/user/peminjaman')->with('success', 'Data Peminjaman berhasil ditambahkan');
+        } else {
+            return redirect()->back()->with('error', 'Data Peminjaman gagal ditambahkan');
+        }
     }
 
     public function hapus($id)
     {
         //todo: pengembalian item inventaris
-        $this->detailPeminjamanModel->hapusDetailPeminjaman($id);
-        $this->peminjamanModel->delete($id);
-        return redirect()->to('/user/peminjaman');
+        $res = $this->detailPeminjamanModel->hapusDetailPeminjaman($id);
+        $res = $this->peminjamanModel->delete($id);
+        if ($res) {
+            return redirect()->to('/user/peminjaman')->with('success', 'Data Peminjaman berhasil dihapus');
+        } else {
+            return redirect()->to('/user/peminjaman')->with('error', 'Data Peminjaman gagal dihapus');
+        }
     }
 
     public function lihat($id)

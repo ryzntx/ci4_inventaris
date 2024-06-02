@@ -70,11 +70,13 @@
                                 </td>
                                 <td><?=$inventaris->nama_ruangan;?></td>
                                 <td>
+                                    <?php if ($inventaris->jumlah > 0): ?>
                                     <a href="" class="btn btn-primary btn-sm" id="tambahBarang" data-bs-toggle="modal"
                                         data-bs-target="#modalTambahBarang" data-id="<?=$inventaris->id_inventaris;?>"
                                         data-kode="<?=$inventaris->kode_inventaris;?>"
                                         data-nama="<?=$inventaris->nama;?>" data-jumlah="<?=$inventaris->jumlah?>"><i
                                             class="fa fa-plus"></i></a>
+                                    <?php endif;?>
                                 </td>
                             </tr>
                             <?php endforeach;?>

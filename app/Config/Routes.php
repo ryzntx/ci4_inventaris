@@ -22,7 +22,6 @@ $routes->group('auth', function ($routes) {
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     // Beranda
     $routes->get('beranda', 'Beranda::index');
-    $routes->get('beranda/testDump', 'Beranda::testDump');
 
     // Manajemen User
     $routes->group('manajemen-akun', function ($routes) {
@@ -73,9 +72,13 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
         $routes->post('tambah', 'Operator\Peminjaman::tambahAction');
         $routes->get('lihat/(:num)', 'Operator\Peminjaman::lihat/$1');
-        $routes->get('edit/(:num)', 'Operator\Peminjaman::edit/$1');
+        // $routes->get('edit/(:num)', 'Operator\Peminjaman::edit/$1');
         $routes->post('edit/(:num)', 'Operator\Peminjaman::editAction/$1');
         $routes->get('hapus/(:num)', 'Operator\Peminjaman::hapus/$1');
+        // Export
+        $routes->get('export-excel', 'Operator\Peminjaman::excel');
+        $routes->get('export-pdf', 'Operator\Peminjaman::pdf');
+        $routes->get('cetak', 'Operator\Peminjaman::cetak');
     });
 
     // Peminjam Transaksi Peminjaman
@@ -89,11 +92,10 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
         $routes->post('tambah', 'User\Peminjaman::tambahAction');
         $routes->get('lihat/(:num)', 'User\Peminjaman::lihat/$1');
-        $routes->get('edit/(:num)', 'User\Peminjaman::edit/$1');
-        $routes->post('edit/(:num)', 'User\Peminjaman::editAction/$1');
         $routes->get('hapus/(:num)', 'User\Peminjaman::hapus/$1');
     });
 
+    // Admin Utility
     $routes->group('utility', function ($routes) {
         $routes->get('/', 'Utility::index');
         $routes->get('database-dump', 'Utility::databaseDump');
@@ -103,6 +105,14 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->get('hapus-semua', 'Utility::deleteAll');
         $routes->get('database-dump-excel', 'Utility::dumpDatabaseToExcel');
         $routes->get('restore-from-excel/(:any)', 'Utility::restoreFromExcel/$1');
+    });
+
+    // Admin-Operator Laporan
+    $routes->group('laporan', function ($routes) {
+        $routes->get('/', 'Laporan::index');
+        $routes->get('cetak', 'Laporan::cetak');
+        $routes->get('pdf', 'Laporan::pdf');
+        $routes->get('excel', 'Laporan::excel');
     });
 
 });

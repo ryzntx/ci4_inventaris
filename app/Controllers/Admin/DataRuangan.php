@@ -32,12 +32,17 @@ class DataRuangan extends BaseController
             $foto->move('uploads/ruangan/foto');
             $fotoName = $foto->getName();
         }
-        $this->ruanganModel->save([
+        $res = $this->ruanganModel->save([
             'nama_ruangan' => $this->request->getPost('nama_ruangan'),
             'foto' => $fotoName,
         ]);
 
-        return redirect()->to(base_url('data-ruangan'));
+        if ($res) {
+            return redirect()->to(base_url('data-ruangan'))->with('success', 'Data Ruangan berhasil ditambahkan');
+        } else {
+            return redirect()->to(base_url('data-ruangan'))->with('error', 'Data Ruangan gagal ditambahkan');
+        }
+
     }
 
     public function editAction($id_ruangan)
@@ -52,9 +57,13 @@ class DataRuangan extends BaseController
             $fotoName = $foto->getName();
             $data['foto'] = $fotoName;
         }
-        $this->ruanganModel->save($data);
+        $res = $this->ruanganModel->save($data);
 
-        return redirect()->to(base_url('data-ruangan'));
+        if ($res) {
+            return redirect()->to(base_url('data-ruangan'))->with('success', 'Data Ruangan berhasil diubah');
+        } else {
+            return redirect()->to(base_url('data-ruangan'))->with('error', 'Data Ruangan gagal diubah');
+        }
     }
 
     // Hapus Ruangan
@@ -64,9 +73,13 @@ class DataRuangan extends BaseController
         if ($ruangan->foto != null && file_exists('uploads/ruangan/foto/' . $ruangan->foto)) {
             unlink('uploads/ruangan/foto/' . $ruangan->foto);
         }
-        $this->ruanganModel->delete($id_ruangan);
+        $res = $this->ruanganModel->delete($id_ruangan);
 
-        return redirect()->to(base_url('data-ruangan'));
+        if ($res) {
+            return redirect()->to(base_url('data-ruangan'))->with('success', 'Data Ruangan berhasil dihapus');
+        } else {
+            return redirect()->to(base_url('data-ruangan'))->with('error', 'Data Ruangan gagal dihapus');
+        }
     }
 
     // Export data to Excel
@@ -121,7 +134,7 @@ class DataRuangan extends BaseController
             } elseif ($extension == 'xlsx') {
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
             } else {
-                return redirect()->to(base_url('data-ruangan'))->with('error', 'Invalid file type');
+                return redirect()->to(base_url('data-ruangan'))->with('error', 'Tipe file tidak valid');
             }
 
             $spreadsheet = $reader->load($file->getRealPath());
@@ -134,8 +147,6 @@ class DataRuangan extends BaseController
                     continue;
                 }
 
-                // Assuming the columns are as follows:
-                // A: kode_inventaris, B: nama, C: merek, D: spesifikasi, E: kondisi, F: jumlah, G: harga, H: sumber, I: nama_ruangan
                 // Create associative array
                 $data[] = [
                     'nama_ruangan' => $row[1],
@@ -144,12 +155,16 @@ class DataRuangan extends BaseController
             // Save the data to the database
             //Bulk insert
             if (isset($data)) {
-                $this->ruanganModel->insertBatch($data);
+                $res = $this->ruanganModel->insertBatch($data);
             }
 
-            return redirect()->to(base_url('data-ruangan'))->with('success', 'Data imported successfully');
+            if ($res) {
+                return redirect()->to(base_url('data-ruangan'))->with('success', 'Data berhasil diimport');
+            } else {
+                return redirect()->to(base_url('data-ruangan'))->with('error', 'Data gagal diimport');
+            }
         } else {
-            return redirect()->to(base_url('data-ruangan'))->with('error', 'No file selected');
+            return redirect()->to(base_url('data-ruangan'))->with('error', 'Tidak ada file yang diupload');
         }
 
     }

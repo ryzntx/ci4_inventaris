@@ -8,7 +8,8 @@
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto me-3 me-lg-4">
         <a href="<?=base_url('auth/logout')?>" class="btn btn-sm btn-danger" onclick="
-        return confirm('Apakah Anda yakin ingin keluar?')"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Keluar</a>
+        return confirm('Apakah Anda yakin ingin keluar?')"><i class="fas fa-sign-out-alt fa-fw me-2"></i><span
+                class="d-md-inline d-none">Keluar</span></a>
         <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>

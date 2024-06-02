@@ -5,12 +5,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <title>Admin Inventaris</title>
-        <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css') ?>">
+        <link rel="stylesheet" href="<?=base_url('assets/bootstrap/css/bootstrap.min.css')?>">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
         <link rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Noto+Sans:300,400,500,600,700&amp;display=swap">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <link rel="stylesheet" href="<?= base_url('assets/css/styles.css') ?>">
+        <link rel="stylesheet" href="<?=base_url('assets/css/styles.css')?>">
     </head>
 
     <body>
@@ -21,20 +21,20 @@
         <div class="container d-flex flex-column justify-content-center align-items-center align-content-center p-5">
             <div class="bg-body-secondary border rounded p-5 col-4">
                 <h4 class="fw-semibold text-center">Masuk</h4>
-                <form action="<?= base_url('auth/login') ?>" method="post">
+                <form action="<?=base_url('auth/login')?>" method="post">
                     <div class="form-group"><label class="form-label">Username</label><input class="form-control"
                             name="username" type="text"></div>
                     <div class="form-group"><label class="form-label">Password</label><input class="form-control"
                             name="password" type="password">
-                        <a href="<?= base_url('auth/forgot-password') ?>">Lupa Sandi?</a>
+                        <a href="<?=base_url('auth/forgot-password')?>">Lupa Sandi?</a>
                     </div>
                     <div class="d-grid"><button class="btn btn-primary" type="submit">Masuk</button></div>
                 </form>
             </div>
             <p class="text-center">2024 &copy; Kelompok 2 Workshop Pemrograman</p>
         </div>
-        <script src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
-        <script src="<?= base_url('assets/bootstrap/js/bootstrap.min.js') ?>"></script>
+        <script src="<?=base_url('assets/js/jquery.min.js')?>"></script>
+        <script src="<?=base_url('assets/bootstrap/js/bootstrap.min.js')?>"></script>
     </body>
 
 </html>

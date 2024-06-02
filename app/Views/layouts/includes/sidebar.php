@@ -47,7 +47,7 @@
                     Peminjaman
                 </a>
                 <div class="sb-sidenav-menu-heading">Lain-lain</div>
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="<?=base_url('laporan')?>">
                     <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>
                     Laporan
                 </a>

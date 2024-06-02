@@ -4,4 +4,5 @@
 <link rel="stylesheet" href="<?=base_url('assets/vendor/fontawesome-free/css/all.min.css')?>">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 <link rel="stylesheet" href="<?=base_url('assets/vendor/datatables/datatables.min.css')?>">
+<link rel="stylesheet" href="<?=base_url('assets/vendor/daterangepicker/daterangepicker.css')?>">
 <link rel="stylesheet" href="<?=base_url('assets/css/styles.css')?>">

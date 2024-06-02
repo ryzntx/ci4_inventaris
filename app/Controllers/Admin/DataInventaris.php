@@ -56,9 +56,13 @@ class DataInventaris extends BaseController
             $data['foto'] = $fotoName;
         }
 
-        $this->inventarisModel->insert($data);
+        $res = $this->inventarisModel->insert($data);
 
-        return redirect()->to(base_url('data-inventaris'));
+        if ($res) {
+            return redirect()->to(base_url('data-inventaris'))->with('success', 'Data Inventaris berhasil ditambahkan');
+        } else {
+            return redirect()->to(base_url('data-inventaris'))->with('error', 'Data Inventaris gagal ditambahkan');
+        }
     }
 
     public function edit($id_inventaris)
@@ -98,9 +102,13 @@ class DataInventaris extends BaseController
             $data['foto'] = $fotoName;
         }
 
-        $this->inventarisModel->update($id_inventaris, $data);
+        $res = $this->inventarisModel->update($id_inventaris, $data);
 
-        return redirect()->to(base_url('data-inventaris'));
+        if ($res) {
+            return redirect()->to(base_url('data-inventaris'))->with('success', 'Data Inventaris berhasil diubah');
+        } else {
+            return redirect()->to(base_url('data-inventaris'))->with('error', 'Data Inventaris gagal diubah');
+        }
     }
 
     public function hapus($id_inventaris)
@@ -109,9 +117,13 @@ class DataInventaris extends BaseController
         if ($inventaris->foto != null && file_exists('uploads/inventaris/foto/' . $inventaris->foto)) {
             unlink('uploads/inventaris/foto/' . $inventaris->foto);
         }
-        $this->inventarisModel->delete($id_inventaris);
+        $res = $this->inventarisModel->delete($id_inventaris);
 
-        return redirect()->to(base_url('data-inventaris'));
+        if ($res) {
+            return redirect()->to(base_url('data-inventaris'))->with('success', 'Data Inventaris berhasil dihapus');
+        } else {
+            return redirect()->to(base_url('data-inventaris'))->with('error', 'Data Inventaris gagal dihapus');
+        }
     }
 
     // Export data to Excel
@@ -182,7 +194,7 @@ class DataInventaris extends BaseController
             } elseif ($extension == 'xlsx') {
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
             } else {
-                return redirect()->to(base_url('data-inventaris'))->with('error', 'Invalid file type');
+                return redirect()->to(base_url('data-inventaris'))->with('error', 'Tipe file tidak valid');
             }
 
             $spreadsheet = $reader->load($file->getRealPath());
@@ -220,11 +232,17 @@ class DataInventaris extends BaseController
             }
             // Save the data to the database
             //Bulk insert
-            $this->inventarisModel->insertBatch($data);
+            if (isset($data)) {
+                $res = $this->inventarisModel->insertBatch($data);
+            }
 
-            return redirect()->to(base_url('data-inventaris'))->with('success', 'Data imported successfully');
+            if ($res) {
+                return redirect()->to(base_url('data-inventaris'))->with('success', 'Data berhasil diimport');
+            } else {
+                return redirect()->to(base_url('data-inventaris'))->with('error', 'Data gagal diimport');
+            }
         } else {
-            return redirect()->to(base_url('data-inventaris'))->with('error', 'No file selected');
+            return redirect()->to(base_url('data-inventaris'))->with('error', 'Tidak ada file yang diupload');
         }
 
     }

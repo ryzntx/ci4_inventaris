@@ -7,8 +7,22 @@
     <a href="<?=base_url('peminjaman/tambah')?>" class="btn btn-primary btn-sm"><i class="fa fa-plus me-2"></i>Tambah
         Peminjaman</a>
     <div class="card mt-4">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between">
             <h5>Daftar Peminjaman</h5>
+            <div class="dropdown">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa fa-cog me-2"></i>Alat
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="<?=base_url('peminjaman/cetak')?>" target="_blank" class="dropdown-item"><i
+                                class="fa fa-print me-2"></i>Cetak / Print</a></li>
+                    <li><a href="<?=base_url('peminjaman/export-pdf')?>" class="dropdown-item"><i
+                                class="fa fa-file-pdf me-2"></i>Export PDF</a></li>
+                    <li><a href="<?=base_url('peminjaman/export-excel')?>" class="dropdown-item"><i
+                                class="fa fa-file-excel me-2"></i>Export Excel</a></li>
+                </ul>
+            </div>
         </div>
         <div class="card-body">
             <table class="table" id="dataTable" width="100%">

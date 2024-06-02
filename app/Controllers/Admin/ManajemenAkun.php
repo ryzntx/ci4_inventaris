@@ -43,7 +43,7 @@ class ManajemenAkun extends BaseController
             $foto->move('uploads/foto');
             $fotoName = $foto->getName();
         }
-        $this->userModel->save([
+        $res = $this->userModel->save([
             'nama' => $this->request->getPost('nama'),
             'username' => $this->request->getPost('username'),
             'email' => $this->request->getPost('email'),
@@ -52,7 +52,11 @@ class ManajemenAkun extends BaseController
             'foto' => $fotoName ?? 'default.jpg',
         ]);
 
-        return redirect()->to(base_url('manajemen-akun'));
+        if ($res):
+            return redirect()->to(base_url('manajemen-akun'))->with('success', 'Akun berhasil ditambahkan');
+        else:
+            return redirect()->to(base_url('manajemen-akun'))->with('error', 'Akun gagal ditambahkan');
+        endif;
     }
 
     public function edit($id)
@@ -86,9 +90,12 @@ class ManajemenAkun extends BaseController
             $fotoName = $foto->getName();
             $data['foto'] = $fotoName;
         }
-        $this->userModel->save($data);
-
-        return redirect()->to(base_url('manajemen-akun'));
+        $res = $this->userModel->save($data);
+        if ($res):
+            return redirect()->to(base_url('manajemen-akun'))->with('success', 'Akun berhasil diubah');
+        else:
+            return redirect()->to(base_url('manajemen-akun'))->with('error', 'Akun gagal diubah');
+        endif;
     }
 
     public function hapus($id)
@@ -97,9 +104,12 @@ class ManajemenAkun extends BaseController
         if ($user->foto != null && $user->foto != 'default.jpg' && file_exists('uploads/foto/' . $user->foto)) {
             unlink('uploads/foto/' . $user->foto);
         }
-        $this->userModel->delete($id);
-
-        return redirect()->to(base_url('manajemen-akun'));
+        $res = $this->userModel->delete($id);
+        if ($res):
+            return redirect()->to(base_url('manajemen-akun'))->with('success', 'Akun berhasil dihapus');
+        else:
+            return redirect()->to(base_url('manajemen-akun'))->with('error', 'Akun gagal dihapus');
+        endif;
     }
 
     // Export data to Excel
@@ -162,7 +172,7 @@ class ManajemenAkun extends BaseController
             } elseif ($extension == 'xlsx') {
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
             } else {
-                return redirect()->to(base_url('manajemen-akun'))->with('error', 'Invalid file type');
+                return redirect()->to(base_url('manajemen-akun'))->with('error', 'Tipe file tidak valid');
             }
 
             $spreadsheet = $reader->load($file->getRealPath());
@@ -187,8 +197,6 @@ class ManajemenAkun extends BaseController
                     continue;
                 }
 
-                // Assuming the columns are as follows:
-                // A: kode_inventaris, B: nama, C: merek, D: spesifikasi, E: kondisi, F: jumlah, G: harga, H: sumber, I: nama_ruangan
                 // Create associative array
                 $data[] = [
                     'nama' => $row[1],
@@ -201,12 +209,15 @@ class ManajemenAkun extends BaseController
             // Save the data to the database
             //Bulk insert
             if (isset($data)) {
-                $this->userModel->insertBatch($data);
+                $res = $this->userModel->insertBatch($data);
             }
-
-            return redirect()->to(base_url('manajemen-akun'))->with('success', 'Data imported successfully');
+            if ($res):
+                return redirect()->to(base_url('manajemen-akun'))->with('success', 'Data berhasil diimport');
+            else:
+                return redirect()->to(base_url('manajemen-akun'))->with('error', 'Data gagal diimport');
+            endif;
         } else {
-            return redirect()->to(base_url('manajemen-akun'))->with('error', 'No file selected');
+            return redirect()->to(base_url('manajemen-akun'))->with('error', 'Tidak ada file yang dipilih!');
         }
 
     }
