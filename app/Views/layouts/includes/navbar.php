@@ -1,7 +1,12 @@
 <nav class="sb-topnav navbar navbar-expand-md navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html"><img src="<?=base_url('assets/img/clipboard-image.png')?>"
-            width="60"><span class="text-light fs-6 ms-2">Sarana &amp; Prasana <br> SMP Negeri 1 Subang</span></a>
+    <a class="navbar-brand ps-3 d-flex justify-content-center align-content-center align-middle align-items-center"
+        href="index.html">
+        <img src="<?=base_url('assets/img/clipboard-image.png')?>" width="60"><span
+            class="text-light fs-6 ms-2 d-inline-flex flex-column">
+            <p class="m-0 p-0">Sarana &amp; Prasana</p>
+            <p class="m-0 p-0">SMP Negeri 1 Subang</p>
+        </span></a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 ms-md-5 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
             class="fas fa-bars"></i></button>
