@@ -25,9 +25,11 @@ class RoleCheck implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        foreach ($arguments as $arg) {
-            if (session()->get('level') == $arg) {
-                return;
+        if (session('logged_in')) {
+            foreach ($arguments as $arg) {
+                if (session()->get('level') == $arg) {
+                    return;
+                }
             }
         }
         // throw exception with a message and 403 status code
