@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class IsPeminjam implements FilterInterface
+class RoleCheck implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -25,7 +25,15 @@ class IsPeminjam implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        //
+        foreach ($arguments as $arg) {
+            if (session()->get('level') == $arg) {
+                return;
+            }
+        }
+        // throw exception with a message and 403 status code
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Anda tidak memiliki akses ke halaman ini");
+        // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        // throw new \Exception('Anda tidak memiliki akses ke halaman ini');
     }
 
     /**

@@ -14,7 +14,7 @@ class PeminjamanModel extends Model
     protected $protectFields = true;
     protected $allowedFields = ['tgl_pinjam', 'tgl_kembali', 'status_peminjaman', 'id_user'];
 
-    public function ambilDataPeminjaman(?string $id = null, ?string $id_user = null, ?array $tanggal = null, ?string $status = null, ?string $ruangan = null)
+    public function ambilDataPeminjaman(?int $limit = null, ?array $orderBy = null, ?string $id = null, ?string $id_user = null, ?array $tanggal = null, ?string $status = null, ?string $ruangan = null)
     {
         $builder = $this
             ->select('peminjamans.id_peminjaman, users.nama, peminjamans.status_peminjaman, peminjamans.tgl_pinjam, peminjamans.tgl_kembali')
@@ -38,6 +38,12 @@ class PeminjamanModel extends Model
         }
         if ($status) {
             $builder->where('peminjamans.status_peminjaman', $status);
+        }
+        if ($orderBy) {
+            $builder->orderBy($orderBy[0], $orderBy[1]);
+        }
+        if ($limit) {
+            $builder->limit($limit);
         }
         return $builder->get()->getResult();
     }

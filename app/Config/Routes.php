@@ -9,12 +9,14 @@ $routes->get('/', 'Home::index');
 
 // Authentikasi
 $routes->group('auth', function ($routes) {
-    $routes->get('login', 'Auth::getLogin');
-    $routes->post('login', 'Auth::postLoginAction');
-    $routes->get('register', 'Auth::getRegister');
-    $routes->post('register', 'Auth::postRegisterAction');
-    $routes->get('forgot-password', 'Auth::getForgotPassword');
-    $routes->post('forgot-password', 'Auth::postForgotPasswordAction');
+    $routes->group('', ['filter' => 'authCheck'], function ($routes) {
+        $routes->get('login', 'Auth::getLogin');
+        $routes->post('login', 'Auth::postLoginAction');
+        $routes->get('register', 'Auth::getRegister');
+        $routes->post('register', 'Auth::postRegisterAction');
+        $routes->get('forgot-password', 'Auth::getForgotPassword');
+        $routes->post('forgot-password', 'Auth::postForgotPasswordAction');
+    });
     $routes->get('logout', 'Auth::getLogout');
 });
 
@@ -24,7 +26,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('beranda', 'Beranda::index');
 
     // Manajemen User
-    $routes->group('manajemen-akun', function ($routes) {
+    $routes->group('manajemen-akun', ['filter' => 'roleCheck:1'], function ($routes) {
         $routes->get('/', 'Admin\ManajemenAkun::index');
         $routes->get('tambah', 'Admin\ManajemenAkun::tambah');
         $routes->post('tambah', 'Admin\ManajemenAkun::tambahAction');
@@ -38,7 +40,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Data Ruangan
-    $routes->group('data-ruangan', function ($routes) {
+    $routes->group('data-ruangan', ['filter' => 'roleCheck:1'], function ($routes) {
         $routes->get('/', 'Admin\DataRuangan::index');
         $routes->post('tambah', 'Admin\DataRuangan::tambahAction');
         $routes->post('edit/(:num)', 'Admin\DataRuangan::editAction/$1');
@@ -49,7 +51,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Data Inventaris
-    $routes->group('data-inventaris', function ($routes) {
+    $routes->group('data-inventaris', ['filter' => 'roleCheck:1,2'], function ($routes) {
         $routes->get('/', 'Admin\DataInventaris::index');
         $routes->get('tambah', 'Admin\DataInventaris::tambah');
         $routes->post('tambah', 'Admin\DataInventaris::tambahAction');
@@ -62,7 +64,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Operator Transaksi Peminjaman
-    $routes->group('peminjaman', function ($routes) {
+    $routes->group('peminjaman', ['filter' => 'roleCheck:1,2'], function ($routes) {
         $routes->get('/', 'Operator\Peminjaman::index');
         $routes->get('tambah', 'Operator\Peminjaman::tambah');
         //Keranjang
@@ -82,7 +84,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Peminjam Transaksi Peminjaman
-    $routes->group('user/peminjaman', function ($routes) {
+    $routes->group('user/peminjaman', ['filter' => 'roleCheck:3'], function ($routes) {
         $routes->get('/', 'User\Peminjaman::index');
         $routes->get('tambah', 'User\Peminjaman::tambah');
         //Keranjang
@@ -96,7 +98,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Admin Utility
-    $routes->group('utility', function ($routes) {
+    $routes->group('utility', ['filter' => 'roleCheck:1'], function ($routes) {
         $routes->get('/', 'Utility::index');
         $routes->get('database-dump', 'Utility::databaseDump');
         $routes->get('table-dump/(:any)', 'Utility::tableDump/$1');
@@ -108,7 +110,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     });
 
     // Admin-Operator Laporan
-    $routes->group('laporan', function ($routes) {
+    $routes->group('laporan', ['filter' => 'roleCheck:1,2'], function ($routes) {
         $routes->get('/', 'Laporan::index');
         $routes->get('cetak', 'Laporan::cetak');
         $routes->get('pdf', 'Laporan::pdf');

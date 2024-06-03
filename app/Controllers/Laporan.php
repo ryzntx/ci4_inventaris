@@ -28,20 +28,20 @@ class Laporan extends BaseController
         ];
         // check _get param
         if ($this->request->getGet('ruangan')) {
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, null, null, null, $this->request->getGet('ruangan'));
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(ruangan: $this->request->getGet('ruangan'));
         }
         // explode date range
         if ($this->request->getGet('tanggal')) {
             $tanggal = explode(' - ', $this->request->getGet('tanggal'));
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, null, $tanggal);
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(tanggal: $tanggal);
         }
         // check user
         if ($this->request->getGet('user')) {
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, $this->request->getGet('user'));
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(id_user: $this->request->getGet('user'));
         }
         // check status
         if ($this->request->getGet('status')) {
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, null, null, $this->request->getGet('status'));
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(status: $this->request->getGet('status'));
         }
 
         return view('pages/admin-operator/laporan/index', $data);
@@ -55,20 +55,20 @@ class Laporan extends BaseController
         ];
         // check ruangan
         if ($this->request->getGet('ruangan')) {
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, null, null, null, $this->request->getGet('ruangan'));
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(ruangan: $this->request->getGet('ruangan'));
         }
         // explode date range
         if ($this->request->getGet('tanggal')) {
             $tanggal = explode(' - ', $this->request->getGet('tanggal'));
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, null, $tanggal);
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(tanggal: $tanggal);
         }
         // check user
         if ($this->request->getGet('user')) {
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, $this->request->getGet('user'));
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(id_user: $this->request->getGet('user'));
         }
         // check status
         if ($this->request->getGet('status')) {
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, null, null, $this->request->getGet('status'));
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(status: $this->request->getGet('status'));
         }
         // get detail peminjaman
         $arr = [];
@@ -92,20 +92,20 @@ class Laporan extends BaseController
         ];
         // check ruangan
         if ($this->request->getGet('ruangan')) {
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, null, null, null, $this->request->getGet('ruangan'));
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(ruangan: $this->request->getGet('ruangan'));
         }
         // explode date range
         if ($this->request->getGet('tanggal')) {
             $tanggal = explode(' - ', $this->request->getGet('tanggal'));
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, null, $tanggal);
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(tanggal: $tanggal);
         }
         // check user
         if ($this->request->getGet('user')) {
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, $this->request->getGet('user'));
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(id_user: $this->request->getGet('user'));
         }
         // check status
         if ($this->request->getGet('status')) {
-            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(null, null, null, $this->request->getGet('status'));
+            $data['peminjamans'] = $this->peminjamanModel->ambilDataPeminjaman(status: $this->request->getGet('status'));
         }
         // get detail peminjaman
         $arr = [];
@@ -153,20 +153,20 @@ class Laporan extends BaseController
         // Filter Section
         // check ruangan
         if ($this->request->getGet('ruangan')) {
-            $peminjamans = $this->peminjamanModel->ambilDataPeminjaman(null, null, null, null, $this->request->getGet('ruangan'));
+            $peminjamans = $this->peminjamanModel->ambilDataPeminjaman(ruangan: $this->request->getGet('ruangan'));
         }
         // explode date range
         if ($this->request->getGet('tanggal')) {
             $tanggal = explode(' - ', $this->request->getGet('tanggal'));
-            $peminjamans = $this->peminjamanModel->ambilDataPeminjaman(null, null, $tanggal);
+            $peminjamans = $this->peminjamanModel->ambilDataPeminjaman(tanggal: $tanggal);
         }
         // check user
         if ($this->request->getGet('user')) {
-            $peminjamans = $this->peminjamanModel->ambilDataPeminjaman(null, $this->request->getGet('user'));
+            $peminjamans = $this->peminjamanModel->ambilDataPeminjaman(id_user: $this->request->getGet('user'));
         }
         // check status
         if ($this->request->getGet('status')) {
-            $peminjamans = $this->peminjamanModel->ambilDataPeminjaman(null, null, null, $this->request->getGet('status'));
+            $peminjamans = $this->peminjamanModel->ambilDataPeminjaman(status: $this->request->getGet('status'));
         }
         // End Filter Section
         // get detail peminjaman

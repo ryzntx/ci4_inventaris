@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class IsOperator implements FilterInterface
+class AuthCheck implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -25,7 +25,13 @@ class IsOperator implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        //
+        // Check if logged in session is not set
+        if (!session('logged_in')) {
+            // Redirect to login page with error message
+            return;
+        }
+        // redirect back
+        return redirect()->back();
     }
 
     /**

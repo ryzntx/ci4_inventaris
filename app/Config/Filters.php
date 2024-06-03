@@ -2,9 +2,8 @@
 
 namespace Config;
 
-use App\Filters\IsAdmin;
-use App\Filters\IsOperator;
-use App\Filters\IsPeminjam;
+use App\Filters\AuthCheck;
+use App\Filters\RoleCheck;
 use App\Filters\SessionAuth;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
@@ -23,15 +22,15 @@ class Filters extends BaseConfig
      *                                                     or [filter_name => [classname1, classname2, ...]]
      */
     public array $aliases = [
-        'csrf'          => CSRF::class,
-        'toolbar'       => DebugToolbar::class,
-        'honeypot'      => Honeypot::class,
-        'invalidchars'  => InvalidChars::class,
+        'csrf' => CSRF::class,
+        'toolbar' => DebugToolbar::class,
+        'honeypot' => Honeypot::class,
+        'invalidchars' => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'auth'          => SessionAuth::class,
-        'isAdmin'       => IsAdmin::class,
-        'isOperator'    => IsOperator::class,
-        'isPeminjam'    => IsPeminjam::class,
+        'auth' => SessionAuth::class,
+        'authCheck' => AuthCheck::class,
+        'roleCheck' => RoleCheck::class,
+
     ];
 
     /**

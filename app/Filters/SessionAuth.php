@@ -29,7 +29,9 @@ class SessionAuth implements FilterInterface
         if (session('logged_in')) {
             return;
         }
-        return redirect()->to('auth/login');
+        // return to login page with error message
+        return redirect()->to(base_url('auth/login'))->with('error', 'Silahkan login terlebih dahulu');
+
     }
 
     /**
