@@ -5,7 +5,10 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+$routes->get('/', function () {
+    // return to login page
+    return redirect()->to('auth/login');
+});
 
 // Authentikasi
 $routes->group('auth', function ($routes) {
